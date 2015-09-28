@@ -1,0 +1,41 @@
+module('Initialization Test');
+test('out of box test', function(){
+	var G = Game();
+	G.ini();
+	equal(G.cells[0][0],0,'initial point is 0');
+	equal(G.isfilled(-1,10), undefined, 'out of box is zero');
+});
+
+module('Update Test');
+test('update simple cells test', function(){
+	var G = Game();
+	G.ini();
+	G.cells[0][0]=1;
+	G.cells[0][1]=1;
+	G.cells[0][2]=1;
+	G.update();
+	equal(G.cells[0][0],0,'degenerated test');
+	equal(G.cells[0][1],1,'continue to the same state test');
+	equal(G.cells[0][2],0,'degenerated test');
+	equal(G.cells[1][1],1,'generated test');
+	G.update();
+	equal(G.cells[0][0],0,'continue to the same state test');
+	equal(G.cells[0][1],0,'degenerated test');
+	equal(G.cells[0][2],0,'continue to the same state test');
+	equal(G.cells[1][1],0,'degenerated test');
+	var T = Game();
+	T.ini();
+	T.cells[0][0]=1;
+	T.cells[0][1]=1;
+	T.cells[0][2]=1;
+	T.cells[1][0]=1;
+	T.cells[1][1]=1;
+	T.cells[1][2]=1;
+	T.cells[2][0]=1;
+	T.cells[2][1]=1;
+	T.cells[2][2]=1;
+	T.update();
+	equal(T.cells[1][1],0,'overcrowded test');
+	equal(T.cells[1][0],0,'overcorwded test');
+	equal(T.cells[1][2],0,'overcorwded test');
+});
